@@ -1,0 +1,103 @@
+#include <iostream>
+using namespace std;
+struct node{
+	char val;
+	node *next;
+};
+class stack{
+	private:
+		node *head=NULL;
+	public:
+		bool isEmpty(){
+			if(head==NULL)
+				return true;
+			return false;
+		}
+    void pushtostack(char a){
+			node *baru=new node;
+			baru->val=a;
+			baru->next=NULL;
+			if(isEmpty()){
+				head=baru;
+			}
+			else{
+				baru->next=head;
+				head=baru;
+			}
+		}
+    char popfromstack(){
+			if(isEmpty()){
+				cout<<"Stack kosong!"<<endl;
+				return 0;
+			}
+			else{
+				char ch=head->val;
+				node *tmp=head->next;
+				delete head;
+				head=tmp;
+				return ch;
+			}
+		}
+		char top(){
+			return head->val;
+		}
+		void cetak(){
+			if(isEmpty()){
+				cout<<"stack kosong!";
+			}
+			else{
+				node *bantu=head;
+				while(bantu!=NULL){
+					cout<<bantu->val<<endl;
+					bantu=bantu->next;
+				}
+			}
+		}
+};
+int main(){
+	stack S;
+	int i=0,n=0;
+	char postfix[20];
+	char infix[20];
+	cin>>infix;
+	while(infix[i]!='\0'){
+		if(isdigit(infix[i])){
+			postfix[n]=infix[i];
+			n++;
+		}
+		else if(infix[i]=='('){
+			S.pushtostack(infix[i]);
+		}
+		else if(infix[i]==')'){
+			while(!S.isEmpty() && S.top()!='('){
+				postfix[n]=S.popfromstack();
+				n++;
+			}
+			S.popfromstack();
+		}
+		else{
+			if(S.isEmpty() || S.top()=='('){
+				S.pushtostack(infix[i]);
+			}
+			else{
+				while(!S.isEmpty() && S.top()!='(' && infix[i]<=S.top()){
+					postfix[n]=S.popfromstack();
+					n++;
+				}
+				S.pushtostack(infix[i]);
+			}
+		}
+		i++;
+	}
+	while(!S.isEmpty()){
+		postfix[n]=S.popfromstack();
+		n++;
+	}
+	postfix[n]='.';
+	n=0;
+	while(postfix[n]!='.'){
+		cout<<postfix[n];
+		n++;
+	}
+	return 0;
+}

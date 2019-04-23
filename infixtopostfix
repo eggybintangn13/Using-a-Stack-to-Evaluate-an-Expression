@@ -63,8 +63,8 @@ int cek(char cekoprtr){
 int main(){
 	stack S;
 	int i=0,n=0,A,B,C;
-	char postfix[50];
-	char infix[50];
+	char postfix[20];
+	char infix[20];
 	cin>>infix;
 	
 	while(infix[i]!='\0'){

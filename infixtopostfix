@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 struct node{
-	char val;
+	char element;
 	node *next;
 };
 class stack{
@@ -13,9 +13,9 @@ class stack{
 				return true;
 			return false;
 		}
-    void pushtostack(char a){
+    		void pushtostack(char a){
 			node *baru=new node;
-			baru->val=a;
+			baru->element=a;
 			baru->next=NULL;
 			if(isEmpty()){
 				head=baru;
@@ -25,13 +25,13 @@ class stack{
 				head=baru;
 			}
 		}
-    char popfromstack(){
+    		char popfromstack(){
 			if(isEmpty()){
 				cout<<"Stack kosong!"<<endl;
 				return 0;
 			}
 			else{
-				char ch=head->val;
+				char ch=head->element;
 				node *tmp=head->next;
 				delete head;
 				head=tmp;
@@ -39,27 +39,34 @@ class stack{
 			}
 		}
 		char top(){
-			return head->val;
+			return head->element;
 		}
 		void cetak(){
 			if(isEmpty()){
-				cout<<"stack kosong!";
+				cout<<"Stack Kosong!";
 			}
 			else{
 				node *bantu=head;
 				while(bantu!=NULL){
-					cout<<bantu->val<<endl;
+					cout<<bantu->element<<endl;
 					bantu=bantu->next;
 				}
 			}
 		}
 };
+int cek(char cekoprtr){
+	if(cekoprtr=='*'||cekoprtr=='/')
+	return 2;
+	else
+	return 1;
+}
 int main(){
 	stack S;
-	int i=0,n=0;
-	char postfix[20];
-	char infix[20];
+	int i=0,n=0,A,B,C;
+	char postfix[50];
+	char infix[50];
 	cin>>infix;
+	
 	while(infix[i]!='\0'){
 		if(isdigit(infix[i])){
 			postfix[n]=infix[i];
@@ -80,7 +87,7 @@ int main(){
 				S.pushtostack(infix[i]);
 			}
 			else{
-				while(!S.isEmpty() && S.top()!='(' && infix[i]<=S.top()){
+				while(!S.isEmpty() && S.top()!='(' && cek(infix[i])<=cek(S.top())){
 					postfix[n]=S.popfromstack();
 					n++;
 				}
@@ -99,5 +106,6 @@ int main(){
 		cout<<postfix[n];
 		n++;
 	}
+	cout<<endl;
 	return 0;
 }
